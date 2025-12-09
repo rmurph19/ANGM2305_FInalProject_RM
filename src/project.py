@@ -64,7 +64,18 @@ class Enemy:
     def update(self, dt):
         self.attack_timer += dt
 
+    def send_attack(self):
+        if self.attack_timer >= self.attack_delay:
+            self.attack_timer = 0
+
+            spawn_x = random.randint(50, Width - 50)
+            spawn_y = random.randint(50, Height - 50)
+
+            return Attack(spawn_x, spawn_y, self)
+        return None
     
+    def draw(self, surface):
+        pygame.draw.circle(surface, (255, 0, 0), (self.x, self.y), 20)
     
 player = Player()
 
