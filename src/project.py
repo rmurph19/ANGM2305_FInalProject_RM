@@ -18,11 +18,17 @@ class Player:
         self.size = 30
         self.health = 100
 
+    
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
+        if event.type == pygame.VIDEORESIZE:
+            Width, Height = event.size
+            screen = pygame.display.set_mode((Width, Height), pygame.RESIZABLE)
 
 
     pygame.display.update()
