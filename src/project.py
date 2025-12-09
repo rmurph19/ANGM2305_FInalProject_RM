@@ -131,9 +131,9 @@ attacks = []
 
 difficulty = 1
 score = 0
+game_active = True
 
-running = True
-while running:
+while True:
     dt = clock.tick(60)/1000
 
     for event in pygame.event.get():
@@ -148,48 +148,56 @@ while running:
     keys = pygame.key.get_pressed()
     player.input(keys, dt)
 
-    for enemy in enemies:
-        enemy.update(dt)
-        attack = enemy.send_attack()
-        if attack:
-            attacks.append(attack)
+    if game_active:
+        for enemy in enemies:
+            enemy.update(dt)
+            attack = enemy.send_attack()
+            if attack:
+                attacks.append(attack)
 
-    for attack in attacks[:]:
-        attack.update(dt)
+        for attack in attacks[:]:
+            attack.update(dt)
 
-        if attack.size <= 0:
-            player.health -= attack.damage
-            attacks.remove(attack)
-            continue
-
-        if circle_collision((player.x, player.y), player.size,
-                            (attack.x, attack.y), attack.size):
-            
-            if attack.shape == player.shape:
-                score += 1
-                attacks.remove(attack)
-                print(f"Score: {score}")
-
-                if score % 5 == 0:
-                    difficulty += 1
-                    enemies.append(Enemy())
-                    print(f"Difficulty: {difficulty}")
-
-            else:
+            if attack.size <= 0:
                 player.health -= attack.damage
                 attacks.remove(attack)
+                continue
 
-    screen.fill((0, 0, 0))
-    player.draw(screen)
-    for enemy in enemies:
-        enemy.draw(screen)
-    for attack in attacks:
-        attack.draw(screen)
+            if circle_collision((player.x, player.y), player.size,
+                                (attack.x, attack.y), attack.size):
+                
+                if attack.shape == player.shape:
+                    score += 1
+                    attacks.remove(attack)
+                    print(f"Score: {score}")
 
-    font = pygame.font.SysFont(None, 28)
-    hp_surf = font.render(f"Health: {player.health}", True, (255, 150, 150))
-    score_surf = font.render(f"Score: {score}", True, (255, 255, 255))
-    screen.blit(score_surf, (10,10))
-    screen.blit(hp_surf, (10,40))
+                    if score % 5 == 0:
+                        difficulty += 1
+                        enemies.append(Enemy())
+                        print(f"Difficulty: {difficulty}")
+                    
+                    if score == 15:
+                        game_active = False 
+
+                else:
+                    player.health -= attack.damage
+                    attacks.remove(attack)
+
+        screen.fill((0, 0, 0))
+        player.draw(screen)
+        for enemy in enemies:
+            enemy.draw(screen)
+        for attack in attacks:
+            attack.draw(screen)
+
+        font = pygame.font.SysFont(None, 28)
+        hp_surf = font.render(f"Health: {player.health}", True, (255, 150, 150))
+        score_surf = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_surf, (10,10))
+        screen.blit(hp_surf, (10,40))
+    else:
+        screen.fill('Green')
+        win_surf = font.render("You win!!", True, (0, 0, 0))
+        screen.blit(win_surf, (Width // 2, Height // 2))
 
     pygame.display.flip()
