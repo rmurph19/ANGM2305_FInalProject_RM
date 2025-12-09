@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
 import random
+import math
 
 pygame.init()
 
@@ -17,6 +18,9 @@ def draw_triangle(surface, color, center, size):
               (x + s, y + s)
     ]
     pygame.draw.polygon(surface, color, points)
+
+def circle_collision(pos1, r1, pos2, r2):
+    return math.dist(pos1, pos2) < r1 + r2
 
 class Player:
     def __init__(self):
@@ -123,8 +127,8 @@ class Attack:
 
 player = Player()
 
-
-while True:
+running = True
+while running:
     dt = clock.tick(60)/1000
 
     for event in pygame.event.get():
