@@ -1,5 +1,6 @@
 import pygame
 from sys import exit
+import random
 
 pygame.init()
 
@@ -38,6 +39,9 @@ class Player:
             self.shape = "circle"
         elif keys[pygame.K_m]:
             self.shape = "triangle"
+
+        self.x = max(self.size, min(Width - self.size, self.x))
+        self.y = max(self.size, min(Height - self.size, self.y))
     
     def draw(self, surface):
         color = (255, 255, 255)
