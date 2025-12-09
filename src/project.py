@@ -132,6 +132,7 @@ attacks = []
 difficulty = 1
 score = 0
 game_active = True
+game_lost = False
 
 while True:
     dt = clock.tick(60)/1000
@@ -169,6 +170,9 @@ while True:
             if attack.size <= 0:
                 player.health -= attack.damage
                 attacks.remove(attack)
+                if player.health <= 0:
+                    game_active = False
+                    game_lost = True
                 continue
 
             if circle_collision((player.x, player.y), player.size,
@@ -185,11 +189,16 @@ while True:
                         print(f"Difficulty: {difficulty}")
                     
                     if score == 15:
-                        game_active = False 
+                        game_active = False
+                        game_lost = False 
 
                 else:
                     player.health -= attack.damage
                     attacks.remove(attack)
+
+                    if player.health <= 0:
+                        game_active = False
+                        game_lost = True
 
         screen.fill((0, 0, 0))
         player.draw(screen)
@@ -204,10 +213,18 @@ while True:
         screen.blit(score_surf, (10,10))
         screen.blit(hp_surf, (10,40))
     else:
-        screen.fill('Green')
-        win_font = pygame.font.SysFont(None, 100)
-        win_surf = win_font.render("You win!!", True, (0, 0, 0))
-        screen.blit(win_surf, (Width // 2 - 100, Height // 2 - 100))
+        if game_lost:
+            screen.fill('Red')
+            win_font = pygame.font.SysFont(None, 100)
+            win_surf = win_font.render("You lose!!", True, (0, 0, 0))
+            win_rect = win_surf.get_rect(center=(Width // 2, Height // 2 - 50))
+            screen.blit(win_surf, win_rect)
+        else:
+            screen.fill('Green')
+            win_font = pygame.font.SysFont(None, 100)
+            win_surf = win_font.render("You win!!", True, (0, 0, 0))
+            win_rect = win_surf.get_rect(center=(Width // 2, Height // 2 - 50))
+            screen.blit(win_surf, win_rect)
         
 
 
