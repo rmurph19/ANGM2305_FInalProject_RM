@@ -77,6 +77,34 @@ class Enemy:
     def draw(self, surface):
         pygame.draw.circle(surface, (255, 0, 0), (self.x, self.y), 20)
     
+class Attack:
+    Shapes = ["square", "circle", "triangle"]
+
+    def __init__(self, x, y, parent_enemy):
+        self.x = x
+        self.y = y
+        self.enemy = parent_enemy
+
+        self.shape = random.choice(self.Shapes)
+
+        at = random.choice(["light", "medium", "heavy"])
+        if at == "light":
+            self.size = 60
+            self.shrink = 80
+            self.damage = 5
+        elif at == "medium":
+            self.size = 100
+            self.shrink = 60
+            self.damage = 10
+        elif at == "heavy":
+            self.size = 150
+            self.shrink = 30
+            self.damage = 20
+
+        self.type = at
+        
+        
+
 player = Player()
 
 
