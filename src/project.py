@@ -102,8 +102,24 @@ class Attack:
             self.damage = 20
 
         self.type = at
-        
-        
+    
+    def update(self, dt):
+        self.size -= self.shrink * dt
+
+    def draw(self, surface):
+        color = (255, 128, 0)
+
+        if self.shape == "square":
+            pygame.draw.rect(surface, color,
+                pygame.Rect(self.x - self.size, self.y - self.size,
+                            self.size * 2, self.size * 2), 3)
+
+        elif self.shape == "circle":
+            pygame.draw.circle(surface, color, (int(self.x), int(self.y)),
+                               int(self.size), 3)
+
+        elif self.shape == "triangle":
+            draw_triangle(surface, color, (self.x, self.y), self.size)        
 
 player = Player()
 
