@@ -126,6 +126,8 @@ class Attack:
             draw_triangle(surface, color, (self.x, self.y), self.size)        
 
 player = Player()
+enemies = [Enemy()]
+attacks = []
 
 running = True
 while running:
@@ -142,6 +144,13 @@ while running:
     
     keys = pygame.key.get_pressed()
     player.input(keys, dt)
+
+    for enemy in enemies:
+        enemy.update(dt)
+        attack = enemy.send_attack()
+        if attack:
+            attacks.append(attack)
+
 
     screen.fill((0, 0, 0))
     player.draw(screen)
