@@ -140,11 +140,19 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        if game_active:
+            if event.type == pygame.VIDEORESIZE:
+                Width, Height = event.size
+                screen = pygame.display.set_mode((Width, Height), pygame.RESIZABLE)
+        else:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                player = Player()
+                enemies = [Enemy()]
+                attacks = []
+                difficulty = 1
+                score = 0
+                game_active = True
 
-        if event.type == pygame.VIDEORESIZE:
-            Width, Height = event.size
-            screen = pygame.display.set_mode((Width, Height), pygame.RESIZABLE)
-    
     keys = pygame.key.get_pressed()
     player.input(keys, dt)
 
@@ -197,7 +205,10 @@ while True:
         screen.blit(hp_surf, (10,40))
     else:
         screen.fill('Green')
-        win_surf = font.render("You win!!", True, (0, 0, 0))
-        screen.blit(win_surf, (Width // 2, Height // 2))
+        win_font = pygame.font.SysFont(None, 100)
+        win_surf = win_font.render("You win!!", True, (0, 0, 0))
+        screen.blit(win_surf, (Width // 2 - 100, Height // 2 - 100))
+        
+
 
     pygame.display.flip()
