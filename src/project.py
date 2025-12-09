@@ -8,6 +8,14 @@ screen = pygame.display.set_mode((Width, Height), pygame.RESIZABLE)
 pygame.display.set_caption('Shapes in Time')
 clock = pygame.time.Clock()
 
+def draw_triangle(surface, color, center, size):
+    x, y = center
+    s = size
+    points = [(x, y - s),
+              (x - s, y + s),
+              (x + s, y + s)
+    ]
+    pygame.draw.polygon(surface, color, points)
 
 class Player:
     def __init__(self):
@@ -23,6 +31,26 @@ class Player:
         movementy = (keys[pygame.K_s] - keys[pygame.K_w] * self.speed * dt)
         self.x += movementx
         self.y = movementy
+
+        if keys[pygame.K_b]:
+            self.shape = "square"
+        elif keys[pygame.K_n]:
+            self.shape = "circle"
+        elif keys[pygame.K_m]:
+            self.shape = "triangle"
+    
+    def draw(self, surface):
+        color = (255, 255, 255)
+        if self.shape == "square":
+            pygame.draw.rect(surface, color, pygame.Rect(self.x - self.size, self.y - self.size,
+                                                         self.size * 2, self.size * 2))
+        elif self.shape == "circle":
+            pygame.draw.circle(surface, color, (int(self.x), int(self.y)), self.size)
+        
+        elif self.shape == "triangle":
+            draw_triangle(surface, color, (self.x, self.y), self.size)
+
+
     
 player = Player()
 
