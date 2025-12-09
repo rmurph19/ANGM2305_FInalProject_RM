@@ -21,7 +21,7 @@ class Player:
     def __init__(self):
         self.x = Width // 2
         self.y = Height // 2
-        self.speed = 50
+        self.speed = 400
         self.shape = "circle"
         self.size = 30
         self.health = 100
