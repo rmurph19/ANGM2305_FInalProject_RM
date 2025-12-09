@@ -54,7 +54,17 @@ class Player:
         elif self.shape == "triangle":
             draw_triangle(surface, color, (self.x, self.y), self.size)
 
+class Enemy:
+    def __init__(self):
+        self.x = random.randint(50, Width - 50)
+        self.y = random.randint(50, Height - 50)
+        self.attack_timer = 0
+        self.attack_delay = 2
+    
+    def update(self, dt):
+        self.attack_timer += dt
 
+    
     
 player = Player()
 
