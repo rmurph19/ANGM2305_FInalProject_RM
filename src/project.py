@@ -129,6 +129,9 @@ player = Player()
 enemies = [Enemy()]
 attacks = []
 
+difficulty = 1
+score = 0
+
 running = True
 while running:
     dt = clock.tick(60)/1000
@@ -151,8 +154,36 @@ while running:
         if attack:
             attacks.append(attack)
 
+    for attack in attacks[:]:
+        attack.update(dt)
+
+        if attack.size <= 0:
+            player.health -= attack.damage
+            attacks.remove(attack)
+            continue
+
+        if circle_collision((player.x, player.y), player.size,
+                            (attack.x, attack.y), attack.size):
+            
+            if attack.shape == player.shape:
+                score += 1
+                attacks.remove(attack)
+                print(f"{score}")
+
+                if score % 5 == 0:
+                    difficulty += 1
+                    enemies.append((Enemy))
+                    print(f"{difficulty}")
+
+        else:
+            player.health -= attack.damage
+            attacks.remove(attack)
 
     screen.fill((0, 0, 0))
     player.draw(screen)
+    for enemy in enemies:
+        enemy.draw(screen)
+    for attack in attacks:
+        attack.draw(screen)
 
     pygame.display.flip()
