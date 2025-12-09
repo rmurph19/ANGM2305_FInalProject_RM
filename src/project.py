@@ -94,11 +94,11 @@ class Attack:
         at = random.choice(["light", "medium", "heavy"])
         if at == "light":
             self.size = 60
-            self.shrink = 80
+            self.shrink = 30
             self.damage = 5
         elif at == "medium":
-            self.size = 100
-            self.shrink = 60
+            self.size = 120
+            self.shrink = 40
             self.damage = 10
         elif at == "heavy":
             self.size = 150
@@ -168,16 +168,16 @@ while running:
             if attack.shape == player.shape:
                 score += 1
                 attacks.remove(attack)
-                print(f"{score}")
+                print(f"Score: {score}")
 
                 if score % 5 == 0:
                     difficulty += 1
-                    enemies.append((Enemy))
-                    print(f"{difficulty}")
+                    enemies.append(Enemy())
+                    print(f"Difficulty: {difficulty}")
 
-        else:
-            player.health -= attack.damage
-            attacks.remove(attack)
+            else:
+                player.health -= attack.damage
+                attacks.remove(attack)
 
     screen.fill((0, 0, 0))
     player.draw(screen)
