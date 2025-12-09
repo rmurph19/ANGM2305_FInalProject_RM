@@ -27,10 +27,10 @@ class Player:
         self.health = 100
 
     def input(self, keys, dt):
-        movementx = (keys[pygame.K_d] - keys[pygame.K_a] * self.speed * dt)
-        movementy = (keys[pygame.K_s] - keys[pygame.K_w] * self.speed * dt)
-        self.x += movementx
-        self.y = movementy
+        movement_x = (keys[pygame.K_d] - keys[pygame.K_a]) * self.speed * dt
+        movement_y = (keys[pygame.K_s] - keys[pygame.K_w]) * self.speed * dt
+        self.x += movement_x
+        self.y += movement_y
 
         if keys[pygame.K_b]:
             self.shape = "square"
@@ -70,6 +70,7 @@ while True:
     keys = pygame.key.get_pressed()
     player.input(keys, dt)
 
-    
+    screen.fill((0, 0, 0))
+    player.draw(screen)
 
     pygame.display.flip()
