@@ -18,9 +18,18 @@ class Player:
         self.size = 30
         self.health = 100
 
+    def input(self, keys, dt):
+        movementx = (keys[pygame.K_d] - keys[pygame.K_a] * self.speed * dt)
+        movementy = (keys[pygame.K_s] - keys[pygame.K_w] * self.speed * dt)
+        self.x += movementx
+        self.y = movementy
     
+player = Player()
+
 
 while True:
+    dt = clock.tick(60)/1000
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -29,7 +38,10 @@ while True:
         if event.type == pygame.VIDEORESIZE:
             Width, Height = event.size
             screen = pygame.display.set_mode((Width, Height), pygame.RESIZABLE)
+    
+    keys = pygame.key.get_pressed()
+    player.input(keys, dt)
 
+    
 
-    pygame.display.update()
-    dt = clock.tick(60)/1000
+    pygame.display.flip()
