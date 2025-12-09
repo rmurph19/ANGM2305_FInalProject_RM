@@ -186,4 +186,10 @@ while running:
     for attack in attacks:
         attack.draw(screen)
 
+    font = pygame.font.SysFont(None, 28)
+    hp_surf = font.render(f"Health: {player.health}", True, (255, 150, 150))
+    score_surf = font.render(f"Score: {score}", True, (255, 255, 255))
+    screen.blit(score_surf, (10,10))
+    screen.blit(hp_surf, (10,40))
+
     pygame.display.flip()
